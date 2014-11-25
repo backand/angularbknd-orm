@@ -424,6 +424,7 @@ backand.table.prototype.create = function (data, successCallback, errorCallback)
 backand.table.prototype.update = function (id, data, successCallback, errorCallback) {
     backand.api.table.data.updateItem(this.name, id, JSON.stringify(data), successCallback, errorCallback, { returnObject: true });
 };
+//todo: change delete
 backand.table.prototype.delete = function (id, successCallback, errorCallback) {
     backand.api.table.data.deleteItem(this.name, id, successCallback, errorCallback);
 };
@@ -470,7 +471,7 @@ backand.table.prototype.config = function (successCallback, errorCallback) {
             data.update = function (successCallback, errorCallback) {
                 table.configData = null;
                 backand.api.table.config.updateItem(table.name, JSON.stringify(this), successCallback, errorCallback);
-            }
+            };
 
             data.newInstance = function () {
                 var o = {};
@@ -489,7 +490,7 @@ backand.table.prototype.config = function (successCallback, errorCallback) {
             successCallback(data);
         }, errorCallback);
     }
-}
+};
 
 function setReadonlyArray(array) {
     array.copyWithin = undefined;
@@ -503,8 +504,3 @@ function setReadonlyArray(array) {
     array.unshift = undefined;
     array.sort = undefined;
 }
-
-
-
-
-
