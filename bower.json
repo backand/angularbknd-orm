@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "homepage": "https://github.com/backand/angularbknd-orm",
   "authors": [
-    "nirkaufman <Nir@500tech.com>"
+    "backand"
   ],
-  "description": "angularjs adaptor for backand ORM",
+  "description": "angularJS adaptor for backand ORM library",
   "moduleType": [
     "globals"
   ],

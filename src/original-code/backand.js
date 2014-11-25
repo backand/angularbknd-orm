@@ -172,9 +172,9 @@ var backand = {
                     backand.options.ajax.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
                 },
                 /* get a list of rows with optional filter, sort and page */
-                getList: function (name, withSelectOptions, withFilterOptions, pageNumber, pageSize, filter, sort, search, successCallback, errorCallback) {
+                getList: function (name, withSelectOptions, withFilterOptions, pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback) {
                     var url = backand.options.getUrl(backand.api.table.data.url + name);
-                    var data = { withSelectOptions: withSelectOptions, withFilterOptions: withFilterOptions, pageNumber: pageNumber, pageSize: pageSize, filter: JSON.stringify(filter), sort: JSON.stringify(sort), search: search };
+                    var data = { withSelectOptions: withSelectOptions, withFilterOptions: withFilterOptions, pageNumber: pageNumber, pageSize: pageSize, filter: JSON.stringify(filter), sort: JSON.stringify(sort), search: search, deep: deep };
                     backand.options.ajax.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
 
                 },
@@ -352,12 +352,16 @@ var backand = {
                 backand.database.push(backand.database[name]);
             }
             backand.database.create = function (data, successCallback, errorCallback) {
-                backand.api.table.config.createItem(JSON.stringify(data), successCallback, errorCallback);
-            }
+                backand.api.table.config.createItem(JSON.stringify(data), function (data, textStatus, xhr) {
+                    backand.database[data.name] = new backand.table(data.name, true);
+                    backand.database.push(backand.database[data.name]);
+                    if (successCallback) successCallback(data, textStatus, xhr);
+                }, errorCallback);
+            };
             setReadonlyArray(backand.database);
         },
         function (xhr) { alert(JSON.stringify(xhr)); });
-    },
+    }
 
     
 };
@@ -396,21 +400,23 @@ backand.table.prototype.constructor = backand.table;
 
 backand.table.prototype.name = function () {
     return this.name;
-}
+};
 
 backand.table.prototype.cacheConfig = function () {
     return this.cacheConfig;
-}
+};
 
 backand.table.prototype.get = function (id, deep, successCallback, errorCallback) {
     backand.api.table.data.getItem(this.name, id, deep, successCallback, errorCallback);
 };
-backand.table.prototype.getList = function (pageNumber, pageSize, filter, sort, search, successCallback, errorCallback) {
+backand.table.prototype.getList = function (pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback) {
     if (filter && !(filter.constructor === Array))
         filter = [filter];
     if (sort && !(sort.constructor === Array))
         sort = [sort];
-    backand.api.table.data.getList(this.name, false, false, pageNumber, pageSize, filter, sort, search, successCallback, errorCallback);
+    if (deep == null || deep == undefined)
+        deep = true;
+    backand.api.table.data.getList(this.name, false, false, pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);
 };
 backand.table.prototype.create = function (data, successCallback, errorCallback) {
     backand.api.table.data.createItem(this.name, JSON.stringify(data), successCallback, errorCallback, { returnObject: true });
@@ -433,12 +439,14 @@ backand.table.prototype.config = function (successCallback, errorCallback) {
                 var field = data.fields[i];
                 data.fields[field.name] = field;
                 field.update = function (successCallback, errorCallback) {
-
+                    table.configData = null;
                 }
+
                 if (field.type == "SingleSelect") {
                     field.autoComplete = function (data, limit, successCallback, errorCallback) {
                         backand.api.table.data.autoComplete(table.name, this.name, { term: data, limit: limit ? limit : 20 }, successCallback, errorCallback);
                     }
+
                     field.selectOptions = function (successCallback, errorCallback) {
                         backand.api.table.data.selectOptions(table.name, this.name, successCallback, errorCallback);
                     }
@@ -455,10 +463,12 @@ backand.table.prototype.config = function (successCallback, errorCallback) {
             setReadonlyArray(data.fields);
 
             data.fields.create = function (data, successCallback, errorCallback) {
+                table.configData = null;
 
             }
 
             data.update = function (successCallback, errorCallback) {
+                table.configData = null;
                 backand.api.table.config.updateItem(table.name, JSON.stringify(this), successCallback, errorCallback);
             }
 

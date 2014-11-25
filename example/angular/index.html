@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Backand ORM</title>
+
+    <!-- style sheets -->
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="style.css"/>
+
+    <!-- vendor -->
+    <script src="../../bower_components/jquery/dist/jquery.js"></script>
+
+    <!-- original code -->
+    <script src="../../src/original-code/backand.js"></script>
+    <script src="../../src/original-code/jquery.backand.js"></script>
+
+    <!-- angular -->
+    <script src="../../bower_components/angular/angular.js"></script>
+    <script src="angular.demo.js"></script>
+
+
+
+</head>
+<body ng-app="angular.orm.demo" ng-controller="DemoController as app" class="container">
+
+<h1>Angular Backand ORM Demo</h1>
+
+<!--authentication-->
+<div class="row">
+    <div class="col-md-12">
+        <section id="oauth2">
+            <div class="page-header">
+                <h1>
+                    authentication<small>
+                    (<a target="_blank" href="">backand.security.authentication</a>)
+                </small>
+                </h1>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class='well'>
+                        <fieldset>
+                            <legend>
+                                User Credentials:
+                            </legend>
+                            <div>
+                                <label class="col-md-2">
+                                    username:
+                                    <input name="username" value="guest@backand.com" />
+                                </label>
+                            </div>
+                            <div>
+                                <label class="col-md-2">
+                                    password:
+                                    <input name="password" value="guest1234" />
+                                </label>
+                            </div>
+                            <div>
+                                <label class="col-md-2">
+                                    appname:
+                                    <input name="appname" value="restdemo" />
+                                </label>
+                            </div>
+                            <button class="btn btn-default">login</button>
+                        </fieldset>
+                            <pre>
+var username = $('input[name=username]').val();
+var password = $('input[name=password]').val();
+var appname = $('input[name=appname]').val();
+backand.security.authentication.login(username, password, appname, successCallback, errorCallback);</pre>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <pre class="output">
+                        {{app.loginResult | json}}
+                    </pre>
+                </div>
+        </section>
+    </div>
+</div>
+
+
+
+<!--CRUD-->
+<div class="row">
+    <div class="col-md-12">
+        <section id="crud">
+            <div class="page-header">
+                <h1>
+                    CRUD<small>
+                    (<a target="_blank" href="">backand.database</a>)
+                </small>
+                </h1>
+            </div>
+            <div class="row">
+                <div id="create" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button><font size="10">C</font>reate</button>
+                            <div>
+                                    <pre>
+var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
+backand.database.Employees.create(employee, successCallback, errorCallback);</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="readSingleFilter" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button class="crud-read"><font size="10">R</font>ead</button>
+                            <span>Read list filtered by a single value</span>
+
+                            <div>
+                                    <pre>
+var pageNumber = 1;
+var pageSize = 10;
+var filter = { fieldName: "First_Name", operator: backand.filter.operator.text.equals, value: "Nir" };
+var sort = { fieldName: "Last_Name", order: "desc" };
+var search = null;
+backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, successCallback, errorCallback);</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="readMultiFilter" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button class="crud-read"><font size="10">R</font>ead</button>
+                            <span>Read list filtered by array of values</span>
+
+                            <div>
+                                    <pre>
+var pageNumber = 1;
+var pageSize = 10;
+var filter = [{ fieldName: "First_Name", operator: backand.filter.operator.text.startsWith, value: "Nir" }, { fieldName: "Last_Name", operator: backand.filter.operator.text.contains, value: "k" }];
+var sort = [{ fieldName: "Last_Name", order: "desc" }, { fieldName: "First_Name", order: "desc" }];
+var search = null;
+backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, successCallback, errorCallback);</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="readById" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button class="crud-read"><font size="10">R</font>ead</button>
+                            <span>Read by id</span>
+                            <div>
+                                    <pre>
+backand.database.Employees.get(146, false, successCallback, errorCallback);</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="update" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button><font size="10">U</font>pdate</button>
+                            <div>
+                                    <pre>
+var id = 145;
+var employee = { "First_Name": "Nir2", "Last_Name": "Kaufman2" };
+backand.database.Employees.update(id, employee, successCallback, errorCallback);</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="delete" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button><font size="10">D</font>elete</button>
+                            <div>
+                                    <pre>
+var id = 145;
+backand.database.Employees.delete(id, successCallback, errorCallback);</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+    </div>
+</div>
+
+<!--UI-->
+<div class="row">
+    <div class="col-md-12">
+        <section id="config">
+            <div class="page-header">
+                <h1>
+                    UI Helpers
+                </h1>
+            </div>
+            <div id="autocomplete" class="row">
+                <div class="col-md-8">
+                    <div class='well'>
+
+                        <button>test autocomplete</button>
+                        <div class="autocomplete">
+                            <label>start type with 's' or 'v'</label>
+                            <input />
+                        </div>
+                        <div>
+                                <pre>
+$('#autocomplete input').keyup(function () {
+    employeesConfig.fields.Job_Title.autoComplete($(this).val(), null, successCallback, errorCallback);
+})</pre>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="output">
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="options" class="row">
+                <div class="col-md-8">
+                    <div class='well'>
+
+                        <button>select options</button>
+                        <div>
+                                <pre>
+employeesConfig.fields.Job_Title.selectOptions(successCallback, errorCallback);
+</pre>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="output">
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="upload" class="row">
+                <div class="col-md-8">
+                    <div class='well'>
+                        <form enctype="multipart/form-data">
+                            <input id="fileselect" name="fileselect" type="file" multiple />
+                            <input id="uploadbutton" type="button" value="Upload" />
+                            <a></a>
+                        </form>
+                        <div>
+                                    <pre>
+var files = null;
+$('#fileselect').bind("change", function (e) {
+	files = e.target.files || e.dataTransfer.files;
+});
+$('#uploadbutton').click(function () {
+	employeesConfig.fields.Attachments.upload(files, successCallback, errorCallback)
+});</pre>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="output">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!--CONFIG-->
+<div class="row">
+    <div class="col-md-12">
+        <section id="config">
+            <div class="page-header">
+                <h1>
+                    CONFIG<small>
+                    (<a target="_blank" href="">backand.database["some table"].config</a>)
+                </small>
+                </h1>
+            </div>
+            <div class="row">
+                <div id="database" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button>List of all database</button>
+                            <div>
+                                <pre>backand.database</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="table" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button>specific table config</button>
+                            <div>
+                                    <pre>
+var employeesConfig = null;
+backand.database.Employees.config(function (data) {
+    employeesConfig = data;
+},
+errorCallback);</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="fields" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button>list of all fields</button>
+                            <div>
+                                <pre>employeesConfig.fields</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="field" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button>specific field config</button>
+                            <div>
+                                <pre>employeesConfig.fields.First_Name</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+<!--SCHEMA-->
+<div class="row">
+    <div class="col-md-12">
+        <section id="schema">
+            <div class="page-header">
+                <h1>
+                    SCHEMA<small>
+                    (<a target="_blank" href="">backand.database["some table"].config</a>)
+                </small>
+                </h1>
+            </div>
+            <div class="row">
+                <div id="createTable" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button>create table</button>
+                            <div>
+                                    <pre>
+var table = {name: "My New Table", fields: [{name: "field1", type: backand.field.type.ShortText}, {name: "field2", type: backand.field.type.DateTime}]};
+backand.database.create(table, successCallback, errorCallback)</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="updateTable" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button>update table</button>
+                            <div>
+                                    <pre>
+// Doing some configuration
+var my_New_TableConfig.allowAdd = false;
+my_New_TableConfig.update(successCallback, errorCallback);
+</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="createField" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button>create field</button>
+                            <div>
+                                    <pre>
+var newField1 = {name: "newField1", type: backand.field.type.ShortText};
+my_New_TableConfig.fields.create(newField1, successCallback, errorCallback);
+</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="updateField" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button>update field</button>
+                            <div>
+                                    <pre>
+// Doing some configuration
+my_New_TableConfig.fields.newField1.displayName = "New Field 1";
+my_New_TableConfig.fields.newField1(successCallback, errorCallback);
+</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+<!--SERVER SIDE BUSINESS LOGIC-->
+<div class="row">
+    <div class="col-md-12">
+        <section id="bl">
+            <div class="page-header">
+                <h1>
+                    SERVER SIDE BUSINESS LOGIC<small>
+                    (<a target="_blank" href="">backand.database["some table"].config.businessRoles</a>)
+                </small>
+                </h1>
+            </div>
+            <div class="row">
+                <div id="beforeCreate" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button id="createRule">create a <b>before <font size="10">C</font>reate</b> rule</button>
+                            <div>
+                                    <pre>
+// validate that only Nir can be a new employee
+var beforeCreateCallback = function(name, data, user, notificationService){
+    if (data && data.First_Name && data.First_Name != "Nir"){
+        throw new Error("only Nir can apply");
+    }
+}
+employeesConfig.businessRoles.beforeCreate = beforeCreateCallback;
+employeesConfig.update(successCallback, errorCallback)</pre>
+                            </div>
+                            <button id="testNegative">Test Negative</button>
+                            <div>
+                                    <pre>
+var employee = { "First_Name": "NotNir", "Last_Name": "NotKaufman" };
+backand.database.Employees.create(employee, successCallback, errorCallback);
+</pre>
+                            </div>
+                            <button id="testPositive">Test Positive</button>
+                            <div>
+                                    <pre>
+var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
+backand.database.Employees.create(employee, successCallback, errorCallback);
+</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="afterCreate" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button id="createRule">create a <b>after <font size="10">C</font>reate</b> rule</button>
+                            <div>
+                                    <pre>
+// send a welcome email to new employee
+var afterCreateCallback = function(name, id, data, user, notificationService){
+    if (data && data.First_Name && data.First_Name == "Nir"){
+        notificationService.sendEmail(data.email, "Welcome abord", "some message")
+    }
+}
+employeesConfig.businessRoles.afterCreate = afterCreateCallback;
+employeesConfig.update(successCallback, errorCallback)</pre>
+                            </div>
+                            <button id="testNegative">Test Positive</button>
+                            <div>
+                                    <pre>
+var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
+backand.database.Employees.create(employee, successCallback, errorCallback);
+</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="beforeRead" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button id="createRule">create a <b>before <font size="10">R</font>ead</b> rule</button>
+                            <div>
+                                    <pre>
+var beforeReadCallback = function(name, id, pageNumber, pageSize, filter, sort, search, user, notificationService){
+//do some logic here.
+}
+employeesConfig.businessRoles.beforeRead = beforeReadCallback;
+employeesConfig.update(successCallback, errorCallback)</pre>
+                            </div>
+                            <button id="testPositive">Test Positive</button>
+                            <div>
+                                    <pre>
+backand.database.Employees.get(146, successCallback, errorCallback);
+</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="afterRead" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button id="createRule">create a <b>after <font size="10">R</font>ead</b> rule</button>
+                            <div>
+                                    <pre>
+var afterReadCallback = function(name, data, user, notificationService){
+//do some logic here.
+}
+employeesConfig.businessRoles.afterRead = afterReadCallback;
+employeesConfig.update(successCallback, errorCallback)</pre>
+                            </div>
+                            <button id="testNegative">Test Positive</button>
+                            <div>
+                                    <pre>
+backand.database.Employees.get(146, successCallback, errorCallback);
+</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="beforeUpdate" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button id="createRule">create a <b>before <font size="10">U</font>pdate</b> rule</button>
+                            <div>
+                                    <pre>
+var beforeUpdateCallback = function(name, id, data, user, notificationService){
+    if (data && data.First_Name && data.First_Name != "Nir"){
+        throw new Error("only Nir can apply");
+    }
+}
+employeesConfig.businessRoles.beforeUpdate = beforeUpdateCallback;
+employeesConfig.update(successCallback, errorCallback)</pre>
+                            </div>
+                            <button id="testNegative">Test Negative</button>
+                            <div>
+                                    <pre>
+var employee = { "First_Name": "NotNir", "Last_Name": "NotKaufman" };
+backand.database.Employees.update(146, employee, successCallback, errorCallback);
+</pre>
+                            </div>
+                            <button id="testPositive">Test Positive</button>
+                            <div>
+                                    <pre>
+var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
+backand.database.Employees.update(146, employee, successCallback, errorCallback);
+</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="afterCreate" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button id="createRule">create a <b>after <font size="10">U</font>pdate</b> rule</button>
+                            <div>
+                                    <pre>
+var afterUpdateCallback = function(name, id, data, user, notificationService){
+    if (data && data.First_Name && data.First_Name == "Nir"){
+        notificationService.sendEmail(["nir@500tech.com"], "Welcome abord", "some message")
+    }
+}
+employeesConfig.businessRoles.afterUpdate = afterUpdateCallback;
+employeesConfig.update(successCallback, errorCallback)</pre>
+                            </div>
+                            <button id="testNegative">Test Positive</button>
+                            <div>
+                                    <pre>
+var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
+backand.database.Employees.update(employee, successCallback, errorCallback);
+</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="beforeDelete" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button id="createRule">create a <b>before <font size="10">D</font>elete</b> rule</button>
+                            <div>
+                                    <pre>
+var beforeDeleteCallback = function(name, id, data, user, notificationService){
+    if (data && data.First_Name && data.First_Name != "Nir"){
+        throw new Error("only Nir can be fired!");
+    }
+}
+employeesConfig.businessRoles.beforeDelete = beforeDeleteCallback;
+employeesConfig.update(successCallback, errorCallback)</pre>
+                            </div>
+                            <button id="testNegative">Test Negative</button>
+                            <div>
+                                    <pre>
+backand.database.Employees.delete(5, successCallback, errorCallback);
+</pre>
+                            </div>
+                            <button id="testPositive">Test Positive</button>
+                            <div>
+                                    <pre>
+backand.database.Employees.delete(146, successCallback, errorCallback);
+</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="afterCreate" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button id="createRule">create a <b>after <font size="10">D</font>elete</b> rule</button>
+                            <div>
+                                    <pre>
+var afterDeleteCallback = function(name, id, data, user, notificationService){
+    if (data && data.First_Name && data.First_Name == "Nir"){
+        notificationService.sendEmail(["nir@500tech.com"], "We will miss you", "some message")
+    }
+}
+employeesConfig.businessRoles.afterDelete = afterDeleteCallback;
+employeesConfig.update(successCallback, errorCallback)</pre>
+                            </div>
+                            <button id="testNegative">Test Positive</button>
+                            <div>
+                                    <pre>
+backand.database.Employees.delete(146, successCallback, errorCallback);
+</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+</body>
+</html>

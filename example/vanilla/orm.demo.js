@@ -7,8 +7,8 @@ $(function () {
 
 	var successCallback = function (data) {
 	    outputElement.text('');
-		outputElement.removeClass('alert-danger');
-		outputElement.addClass('alert-success');
+		outputElement.removeClass('alert-danger')
+		outputElement.addClass('alert-success')
 		if (data)
 			outputElement.text(JSON.stringify(data));
 		else
@@ -16,8 +16,8 @@ $(function () {
 	};
 	var errorCallback = function (error) {
 	    outputElement.text('');
-	    outputElement.removeClass('alert-success');
-		outputElement.addClass('alert-danger');
+	    outputElement.removeClass('alert-success')
+		outputElement.addClass('alert-danger')
 		if (error) {
 			if (error.responseJSON && error.responseJSON.error_description) {
 				outputElement.text(error.responseJSON.error_description);
@@ -33,7 +33,7 @@ $(function () {
 		else {
 			outputElement.text("error");
 		}
-	};
+	}
 
 	var lastCreatedId = null;
 
@@ -65,8 +65,9 @@ $(function () {
 		var filter = [{ fieldName: "First_Name", operator: backand.filter.operator.text.startsWith, value: "Nir" }, { fieldName: "Last_Name", operator: backand.filter.operator.text.contains, value: "k" }];
 		var sort = [{ fieldName: "Last_Name", order: "desc" }, { fieldName: "First_Name", order: "desc" }];
 		var search = null;
+		var deep = true;
 
-		backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, successCallback, errorCallback);
+		backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);
 	});
 	$('#crud #readSingleFilter button').click(function () {
 	    if (!backand.database) {
@@ -82,8 +83,9 @@ $(function () {
 	    var filter = { fieldName: "First_Name", operator: backand.filter.operator.text.equals, value: "Nir" };
 	    var sort = { fieldName: "Last_Name", order: "desc" };
 	    var search = null;
+	    var deep = true;
 
-	    backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, successCallback, errorCallback);
+	    backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);
 	});
 
 	$('#crud #readById button').click(function () {
@@ -282,8 +284,8 @@ $(function () {
 	});
 
 	//SCHEMA
-	//CREATE VIEW
-	$('#schema #createTable button').click(function () {
+	//CREATE MASTER TABLE
+	$('#schema #createMasterTable button').click(function () {
 	    if (!backand.database) {
 	        alert("please login before using backand");
 	        return;
@@ -292,6 +294,20 @@ $(function () {
 	    outputElement = $(this).parents('.row:first').find('.output');
 
 	    var table = { name: "person", fields: [{ name: "firstName", type: backand.field.type.ShortText }, { name: "lastName", type: backand.field.type.ShortText }, { name: "dateOfBirth", type: backand.field.type.DateTime }] };
+	    backand.database.create(table, successCallback, errorCallback);
+
+	});
+
+    //CREATE DETAILS TABLE
+	$('#schema #createDetailsTable button').click(function () {
+	    if (!backand.database) {
+	        alert("please login before using backand");
+	        return;
+	    }
+
+	    outputElement = $(this).parents('.row:first').find('.output');
+
+	    var table = { name: "pet", fields: [{ name: "name", type: backand.field.type.ShortText }, { name: "owner", type: backand.field.type.SingleSelect, relatedTable: "person" }, { name: "type", type: backand.field.type.SingleSelect, relatedTable: "petType" }, { name: "dateOfBirth", type: backand.field.type.DateTime }] };
 	    backand.database.create(table, successCallback, errorCallback);
 
 	});

@@ -4,6 +4,11 @@
     <title>Backand ORM</title>
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css"/>
 
+    <script src="../../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../../src/original-code/backand.js"></script>
+    <script src="../../src/original-code/jquery.backand.js"></script>
+    <script src="orm.demo.js"></script>
+
     <style>
         #oauth2 button {
             margin-top: 20px;
@@ -119,7 +124,9 @@ var pageSize = 10;
 var filter = { fieldName: "First_Name", operator: backand.filter.operator.text.equals, value: "Nir" };
 var sort = { fieldName: "Last_Name", order: "desc" };
 var search = null;
-backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, successCallback, errorCallback);</pre>
+var deep = true;
+
+backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);</pre>
                                 </div>
 
                             </div>
@@ -144,7 +151,9 @@ var pageSize = 10;
 var filter = [{ fieldName: "First_Name", operator: backand.filter.operator.text.startsWith, value: "Nir" }, { fieldName: "Last_Name", operator: backand.filter.operator.text.contains, value: "k" }];
 var sort = [{ fieldName: "Last_Name", order: "desc" }, { fieldName: "First_Name", order: "desc" }];
 var search = null;
-backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, successCallback, errorCallback);</pre>
+var deep = true;
+
+backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);</pre>
                                 </div>
 
                             </div>
@@ -408,15 +417,35 @@ errorCallback);</pre>
                     </h1>
                 </div>
                 <div class="row">
-                    <div id="createTable" class="row">
+                    <div id="createMasterTable" class="row">
                         <div class="col-md-8">
                             <div class='well'>
 
-                                <button>create table</button>
+                                <button>create master table</button>
                                 <div>
                                     <pre>
 var table = {name: "My New Table", fields: [{name: "field1", type: backand.field.type.ShortText}, {name: "field2", type: backand.field.type.DateTime}]};
 backand.database.create(table, successCallback, errorCallback)</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="output">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="createDetailsTable" class="row">
+                        <div class="col-md-8">
+                            <div class='well'>
+
+                                <button>create details table</button>
+                                <div>
+                                    <pre>
+var table = { name: "pet", fields: [{ name: "name", type: backand.field.type.ShortText }, { name: "owner", type: backand.field.type.SingleSelect, relatedTable: "person" }, { name: "type", type: backand.field.type.SingleSelect, relatedTable: "petType" }, { name: "dateOfBirth", type: backand.field.type.DateTime }] };
+backand.database.create(table, successCallback, errorCallback);
+</pre>
                                 </div>
 
                             </div>
@@ -779,9 +808,5 @@ backand.database.Employees.delete(146, successCallback, errorCallback);
     </div>
 
 
-    <script src="../../bower_components/jquery/dist/jquery.js"></script>
-    <script src="../../src/backand.js"></script>
-    <script src="../../src/jquery.backand.js"></script>
-    <script src="orm.demo.js"></script>
 </body>
 </html>
