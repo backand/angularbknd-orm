@@ -1,0 +1,26 @@
+{
+  "name": "angularbknd-orm",
+  "version": "0.1.0",
+  "description": "AngularJS Adaptor for backand ORM  ",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/backand/angularbknd-orm.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/backand/angularbknd-orm/issues"
+  },
+  "homepage": "https://github.com/backand/angularbknd-orm",
+  "dependencies": {
+    "gulp": "^3.8.10",
+    "gulp-concat": "^2.4.2"
+  }
+}
