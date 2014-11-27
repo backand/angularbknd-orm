@@ -1,8 +1,8 @@
-function BackandApi() {
+function BackandApi(apiRoutes) {
 
     /* app is the object the contains the information of all the general content of the app */
     this.app = {
-        url: '/app/config',
+        url: apiRoutes.appUrl,
         getConfig: function (successCallback, errorCallback) {
             var url = backand.options.getUrl(backand.api.app.url);
             backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
@@ -13,8 +13,7 @@ function BackandApi() {
     this.table = {
         config: {
 
-            url: '/table/config/',
-
+            url: apiRoutes.tableConfigUrl,
 
             getItem: function (name, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.table.config.url + name);
@@ -61,7 +60,7 @@ function BackandApi() {
 
         /* get the table data */
         data: {
-            url: '/table/data/',
+            url: apiRoutes.tableDataUrl,
             /* get a single row by the primary key (id) */
             getItem: function (name, id, deep, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.table.data.url + name + '/' + id);
@@ -115,7 +114,7 @@ function BackandApi() {
     /* dashboard is a collection of charts */
     this.dashboard = {
         config: {
-            url: '/dashboard/config/',
+            url: apiRoutes.dashboardConfigUrl,
             /* get the configuration information of a specific dashboard */
             getItem: function (id, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.dashboard.config.url + id);
@@ -138,7 +137,7 @@ function BackandApi() {
 
         /* get the data of all the charts in this dashboard */
         data: {
-            url: '/dashboard/data/',
+            url: apiRoutes.dashboardDataUrl,
             getItem: function (id, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.dashboard.data.url + id);
                 backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
@@ -146,10 +145,9 @@ function BackandApi() {
         }
 
     };
-
     this.chart = {
         config: {
-            url: '/chart/config/',
+            url: apiRoutes.chartConfigUrl,
             /* get the configuration information of a specific chart */
             getItem: function (id, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.chart.config.url + id);
@@ -170,7 +168,7 @@ function BackandApi() {
             }
         },
         data: {
-            url: '/chart/data/',
+            url: apiRoutes.chartDataUrl,
             /* get the data of a specific chart */
             getItem: function (id, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.chart.data.url + id + '?' + backand.utils.getQueryString());
@@ -179,10 +177,9 @@ function BackandApi() {
         }
 
     };
-
     this.content = {
         config: {
-            url: '/content/config/',
+            url: apiRoutes.contentConfigData,
             /* get the configuration information of a specific content */
             getItem: function (id, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.content.config.url + id);
@@ -205,7 +202,7 @@ function BackandApi() {
     };
 
     this.file = {
-        url: '/file/upload/',
+        url: apiRoutes.fileUrl,
         upload: function (tableName, fieldName, files, successCallback, errorCallback) {
 
             var url = backand.options.getUrl(backand.api.file.url + tableName + '/' + fieldName);

@@ -1,3 +1,33 @@
+var backand = new Backand({
+
+	options : {
+		url: 'https://api.backand.com:8080',
+		version: 1
+	},
+
+	security : {
+		bannerUrl : '/api/banner',
+		authUrl : '/token'
+	},
+
+	system : {
+		systemUrl : '/api/system'
+	},
+
+	api : {
+		appUrl : '/app/config',
+		tableConfigUrl : '/table/config/',
+		tableDataUrl : '/table/data/',
+		dashboardConfigUrl : '/dashboard/config/',
+		dashboardDataUrl : '/dashboard/data/',
+		chartConfigUrl : '/chart/config/',
+		chartDataUrl : '/chart/data/',
+		contentConfigUrl : '/content/config/',
+		fileUrl : '/file/upload/'
+	}
+});
+
+
 $(function () {
 
 	var outputElement = null;
@@ -11,6 +41,7 @@ $(function () {
 		else
 			outputElement.text("success");
 	};
+
 	var errorCallback = function (error) {
 	    outputElement.text('');
 	    outputElement.removeClass('alert-success');
@@ -30,7 +61,7 @@ $(function () {
 		else {
 			outputElement.text("error");
 		}
-	}
+	};
 
 	var lastCreatedId = null;
 
@@ -309,10 +340,9 @@ $(function () {
 
 	});
 
-	
 	//BUSINESS RULES
 	$('#bl button').click(function () {
 		alert("This action is limited to an admin role.");
 	});
 
-})
+});

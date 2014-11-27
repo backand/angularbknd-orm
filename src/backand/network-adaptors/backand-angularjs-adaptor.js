@@ -1,7 +1,7 @@
 function BackandAngularjsAdaptor ($http, backand) {
 
     this.json = function (url, data, verb) {
-
+        console.log(backand);
         return $http({
             url: url,
             method: verb,

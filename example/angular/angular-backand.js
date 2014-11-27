@@ -5,8 +5,9 @@ angular.module('bknd.orm', [])
     .config(function ($provide) {
 
         $provide.decorator('backand', function ($delegate, $http) {
-            $delegate.network = new BackandAngularjsAdaptor($http, $delegate);
-            return $delegate;
+            var originalService = $delegate;
+            originalService.network = new BackandAngularjsAdaptor($http, $delegate);
+            return originalService;
         })
     });
 
