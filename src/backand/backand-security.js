@@ -1,9 +1,10 @@
-function BackandSecurity () {
+function BackandSecurity (bannerUrl, authUrl ) {
+
     this.banner = {
-        url: '/api/banner',
+        url: bannerUrl,
             getAdminInfo: function () {
             var adminInfo = null;
-            backand.network.ajax.json(backand.options.url + backand.security.banner.url, null, backand.options.verbs.post, function (data) {
+            backand.network.json(backand.options.url + backand.security.banner.url, null, backand.options.verbs.post, function (data) {
                 adminInfo = data;
             }, function (xhr, textStatus, err) {
                 if (xhr) {
@@ -39,7 +40,7 @@ function BackandSecurity () {
     };
 
     this.authentication = {
-        url: "/token",
+        url: authUrl,
             token: null,
             onlogin: null,
             addLoginEvent: function (appname) {
@@ -55,7 +56,7 @@ function BackandSecurity () {
         },
         login: function (username, password, appname, successCallback, errorCallback) {
             backand.security.authentication.addLoginEvent();
-            backand.network.ajax.json(backand.options.url + backand.security.authentication.url, {
+            backand.network.json(backand.options.url + backand.security.authentication.url, {
                     grant_type: "password",
                     username: username,
                     password: password,
@@ -75,7 +76,7 @@ function BackandSecurity () {
 
     this.unlock = function (username, successCallback, errorCallback) {
         var url = backand.options.getUrl('/account/unlock');
-        backand.network.ajax.json(url, JSON.stringify({username: username}), backand.options.verbs.post, successCallback, errorCallback);
+        backand.network.json(url, JSON.stringify({username: username}), backand.options.verbs.post, successCallback, errorCallback);
 
     }
 }

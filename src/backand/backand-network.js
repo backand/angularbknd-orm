@@ -1,16 +1,11 @@
-function BackandNetwork (networkLibrary) {
+function BackandNetwork() {
 
-    var self = this;
+    this.json = function () {
+        throw Error("missing implementation.")
+    };
 
-    switch(networkLibrary) {
-        case 'jquery':
-            self.ajax = new BackandJqueryAdaptor();
-            break;
-        case 'angular':
-            self.ajax = new BackandAngularjsAdaptor();
-            break;
-        default:
-            throw Error('network library not defined');
+    this.file = function () {
+        throw Error("missing implementation.")
     }
 
 }

@@ -1,6 +1,7 @@
 function BackandUtils () {}
 
 BackandUtils.prototype.objectToQueryString = function (obj) {
+
     var params = [];
 
     for (var prop in obj)
@@ -9,4 +10,8 @@ BackandUtils.prototype.objectToQueryString = function (obj) {
         }
 
     return params.join("&");
+};
+
+BackandUtils.prototype.getQueryString = function () {
+    return window.location.href.slice(window.location.href.indexOf('?') + 1);
 };

@@ -2,15 +2,15 @@ function Backand() {
 
     var self = this;
 
-    self.options = new BackandOptions();
-    self.security = new BackandSecurity();
+    self.options = new BackandOptions('https://api.backand.com:8080', 1);
+    self.security = new BackandSecurity('/api/banner', '/token');
     self.system = new BackandSystem();
     self.api = new BackandApi();
     self.filter = new BackandFilter();
     self.field = new BackandField();
     self.sort = new BackandSort();
     self.utils = new BackandUtils();
-    self.network = new BackandNetwork('jquery');
+    self.network = new BackandNetwork();
     self.table = BackandTable;
 
     self.loadTables = function () {

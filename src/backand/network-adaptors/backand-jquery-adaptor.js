@@ -1,9 +1,8 @@
-function BackandJqueryAdaptor () {
+(function BackandJqueryAdaptor ($, backand) {
 
-    this.json = function (url, data, verb, successCallback, errorCallback, forToken) {
+    backand.network.json = function (url, data, verb, successCallback, errorCallback, forToken) {
         $.ajax({
             url: url,
-            async: false,
             type: verb,
             beforeSend: function (xhr) {
                 if (!forToken)
@@ -21,7 +20,7 @@ function BackandJqueryAdaptor () {
         });
     };
 
-    this.file = function (url, data, verb, successCallback, errorCallback) {
+    backand.network.file = function (url, data, verb, successCallback, errorCallback) {
         $.ajax({
             url: url,
             type: verb,
@@ -40,4 +39,4 @@ function BackandJqueryAdaptor () {
             }
         });
     };
-}
+})($, backand);

@@ -5,7 +5,7 @@ function BackandApi() {
         url: '/app/config',
         getConfig: function (successCallback, errorCallback) {
             var url = backand.options.getUrl(backand.api.app.url);
-            backand.network.ajax.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+            backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
         }
     };
 
@@ -18,7 +18,7 @@ function BackandApi() {
 
             getItem: function (name, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.table.config.url + name);
-                backand.network.ajax.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
             },
             getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.table.config.url);
@@ -30,20 +30,20 @@ function BackandApi() {
                     sort: JSON.stringify(sort),
                     search: search
                 };
-                backand.network.ajax.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
 
             },
             createItem: function (data, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.table.config.url);
-                backand.network.ajax.json(url, data, backand.options.verbs.post, successCallback, errorCallback);
+                backand.network.json(url, data, backand.options.verbs.post, successCallback, errorCallback);
             },
             updateItem: function (name, data, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.table.config.url + name);
-                backand.network.ajax.json(url, data, backand.options.verbs.put, successCallback, errorCallback);
+                backand.network.json(url, data, backand.options.verbs.put, successCallback, errorCallback);
             },
             deleteItem: function (name, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.table.config.url + name);
-                backand.network.ajax.json(url, null, backand.options.verbs.delete, successCallback, errorCallback);
+                backand.network.json(url, null, backand.options.verbs.delete, successCallback, errorCallback);
             },
             getFieldByName: function (configTable, fieldName) {
                 if (!configTable.hashFieldsByName) {
@@ -66,7 +66,7 @@ function BackandApi() {
             getItem: function (name, id, deep, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.table.data.url + name + '/' + id);
                 var data = {deep: deep};
-                backand.network.ajax.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
             },
             /* get a list of rows with optional filter, sort and page */
             getList: function (name, withSelectOptions, withFilterOptions, pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback) {
@@ -81,32 +81,32 @@ function BackandApi() {
                     search: search,
                     deep: deep
                 };
-                backand.network.ajax.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
 
             },
             createItem: function (name, data, successCallback, errorCallback, params) {
                 var url = backand.options.getUrl(backand.api.table.data.url + name);
                 if (params)
                     url += '?' + backand.utils.objectToQueryString(params);
-                backand.network.ajax.json(url, data, backand.options.verbs.post, successCallback, errorCallback);
+                backand.network.json(url, data, backand.options.verbs.post, successCallback, errorCallback);
             },
             updateItem: function (name, id, data, successCallback, errorCallback, params) {
                 var url = backand.options.getUrl(backand.api.table.data.url + name + '/' + id);
                 if (params)
                     url += '?' + backand.utils.objectToQueryString(params);
-                backand.network.ajax.json(url, data, backand.options.verbs.put, successCallback, errorCallback);
+                backand.network.json(url, data, backand.options.verbs.put, successCallback, errorCallback);
             },
             deleteItem: function (name, id, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.table.data.url + name + '/' + id);
-                backand.network.ajax.json(url, null, backand.options.verbs.delete, successCallback, errorCallback);
+                backand.network.json(url, null, backand.options.verbs.delete, successCallback, errorCallback);
             },
             autoComplete: function (tableName, fieldName, data, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.table.data.url + "autocomplete/" + tableName + '/' + fieldName);
-                backand.network.ajax.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
             },
             selectOptions: function (tableName, fieldName, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.table.data.url + "selectOptions/" + tableName + '/' + fieldName);
-                backand.network.ajax.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
             }
         }
 
@@ -119,7 +119,7 @@ function BackandApi() {
             /* get the configuration information of a specific dashboard */
             getItem: function (id, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.dashboard.config.url + id);
-                backand.network.ajax.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
             },
             getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.dashboard.config.url);
@@ -131,7 +131,7 @@ function BackandApi() {
                     sort: JSON.stringify(sort),
                     search: search
                 };
-                backand.network.ajax.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
 
             }
         },
@@ -141,7 +141,7 @@ function BackandApi() {
             url: '/dashboard/data/',
             getItem: function (id, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.dashboard.data.url + id);
-                backand.network.ajax.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
             }
         }
 
@@ -153,7 +153,7 @@ function BackandApi() {
             /* get the configuration information of a specific chart */
             getItem: function (id, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.chart.config.url + id);
-                backand.network.ajax.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
             },
             getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.chart.config.url);
@@ -165,7 +165,7 @@ function BackandApi() {
                     sort: JSON.stringify(sort),
                     search: search
                 };
-                backand.network.ajax.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
 
             }
         },
@@ -173,8 +173,8 @@ function BackandApi() {
             url: '/chart/data/',
             /* get the data of a specific chart */
             getItem: function (id, successCallback, errorCallback) {
-                var url = backand.options.getUrl(backand.api.chart.data.url + id + '?' + backand.options.getQueryString());
-                backand.network.ajax.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                var url = backand.options.getUrl(backand.api.chart.data.url + id + '?' + backand.utils.getQueryString());
+                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
             }
         }
 
@@ -186,7 +186,7 @@ function BackandApi() {
             /* get the configuration information of a specific content */
             getItem: function (id, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.content.config.url + id);
-                backand.network.ajax.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
             },
             getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search, successCallback, errorCallback) {
                 var url = backand.options.getUrl(backand.api.content.config.url);

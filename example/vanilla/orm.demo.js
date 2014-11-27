@@ -1,8 +1,5 @@
 $(function () {
 
-	// init backand url
-	backand.options.url = "https://api.backand.com:8080";
-
 	var outputElement = null;
 
 	var successCallback = function (data) {

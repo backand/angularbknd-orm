@@ -1,29 +1,49 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Backand ORM</title>
+    <title>AngularJS Backand ORM</title>
 
-    <!-- style sheets -->
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css"/>
-    <link rel="stylesheet" href="style.css"/>
 
-    <!-- vendor -->
+    <script src="../../bower_components/angular/angular.js"></script>
+
     <script src="../../bower_components/jquery/dist/jquery.js"></script>
 
-    <!-- original code -->
-    <script src="../../src/original-code/backand.js"></script>
-    <script src="../../src/original-code/jquery.backand.js"></script>
+    <!-- source files -->
+    <script src="../../src/backand/backand-options.js"></script>
+    <script src="../../src/backand/backand-field.js"></script>
+    <script src="../../src/backand/backand-filter.js"></script>
+    <script src="../../src/backand/backand-security.js"></script>
+    <script src="../../src/backand/backand-sort.js"></script>
+    <script src="../../src/backand/backand-system.js"></script>
+    <script src="../../src/backand/backand-table.js"></script>
+    <script src="../../src/backand/backand-api.js"></script>
+    <script src="../../src/backand/backand-util.js"></script>
+    <script src="../../src/backand/backand-network.js"></script>
+    <script src="../../src/backand/backand.js"></script>
+    <!-- source files -->
+    <script src="angular-backand.js"></script>
+    <script src="../../src/backand/network-adaptors/backand-angularjs-adaptor.js"></script>
 
-    <!-- angular -->
-    <script src="../../bower_components/angular/angular.js"></script>
     <script src="angular.demo.js"></script>
+    <script src="../vanilla/orm.demo.js"></script>
 
-
-
+    <style>
+        #oauth2 button {
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        .output{
+            margin-bottom:10px;
+        }
+        .autocomplete{display:none}
+    </style>
 </head>
 <body ng-app="angular.orm.demo" ng-controller="DemoController as app" class="container">
 
-<h1>Angular Backand ORM Demo</h1>
+<div class="page-header">
+    AngularJS backand ORM Demo
+</div>
 
 <!--authentication-->
 <div class="row">
@@ -61,7 +81,7 @@
                                     <input name="appname" value="restdemo" />
                                 </label>
                             </div>
-                            <button class="btn btn-default">login</button>
+                            <button>login</button>
                         </fieldset>
                             <pre>
 var username = $('input[name=username]').val();
@@ -72,9 +92,9 @@ backand.security.authentication.login(username, password, appname, successCallba
                 </div>
 
                 <div class="col-md-4">
-                    <pre class="output">
-                        {{app.loginResult | json}}
-                    </pre>
+                    <div class="output">
+
+                    </div>
                 </div>
         </section>
     </div>
@@ -127,7 +147,9 @@ var pageSize = 10;
 var filter = { fieldName: "First_Name", operator: backand.filter.operator.text.equals, value: "Nir" };
 var sort = { fieldName: "Last_Name", order: "desc" };
 var search = null;
-backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, successCallback, errorCallback);</pre>
+var deep = true;
+
+backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);</pre>
                             </div>
 
                         </div>
@@ -152,7 +174,9 @@ var pageSize = 10;
 var filter = [{ fieldName: "First_Name", operator: backand.filter.operator.text.startsWith, value: "Nir" }, { fieldName: "Last_Name", operator: backand.filter.operator.text.contains, value: "k" }];
 var sort = [{ fieldName: "Last_Name", order: "desc" }, { fieldName: "First_Name", order: "desc" }];
 var search = null;
-backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, successCallback, errorCallback);</pre>
+var deep = true;
+
+backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);</pre>
                             </div>
 
                         </div>
@@ -416,15 +440,35 @@ errorCallback);</pre>
                 </h1>
             </div>
             <div class="row">
-                <div id="createTable" class="row">
+                <div id="createMasterTable" class="row">
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button>create table</button>
+                            <button>create master table</button>
                             <div>
                                     <pre>
 var table = {name: "My New Table", fields: [{name: "field1", type: backand.field.type.ShortText}, {name: "field2", type: backand.field.type.DateTime}]};
 backand.database.create(table, successCallback, errorCallback)</pre>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="output">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="createDetailsTable" class="row">
+                    <div class="col-md-8">
+                        <div class='well'>
+
+                            <button>create details table</button>
+                            <div>
+                                    <pre>
+var table = { name: "pet", fields: [{ name: "name", type: backand.field.type.ShortText }, { name: "owner", type: backand.field.type.SingleSelect, relatedTable: "person" }, { name: "type", type: backand.field.type.SingleSelect, relatedTable: "petType" }, { name: "dateOfBirth", type: backand.field.type.DateTime }] };
+backand.database.create(table, successCallback, errorCallback);
+</pre>
                             </div>
 
                         </div>
@@ -785,6 +829,8 @@ backand.database.Employees.delete(146, successCallback, errorCallback);
         </section>
     </div>
 </div>
+
+<!--<script src="../../src/backand/network-adaptors/backand-jquery-adaptor.js"></script>-->
 
 </body>
 </html>
