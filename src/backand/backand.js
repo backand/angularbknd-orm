@@ -1,40 +1,53 @@
 function Backand() {
 
-    this.options = new BackandOptions();
-    this.security = new BackandSecurity();
-    this.system = new BackandSystem();
-    this.api = new BackandApi();
-    this.filter = new BackandFilter();
-    this.field = new BackandField();
-    this.sort = new BackandSort();
-    this.table = BackandTable;
+    var self = this;
 
-    this.loadTables = function () {
+    self.options = new BackandOptions();
+    self.security = new BackandSecurity();
+    self.system = new BackandSystem();
+    self.api = new BackandApi();
+    self.filter = new BackandFilter();
+    self.field = new BackandField();
+    self.sort = new BackandSort();
+    self.utils = new BackandUtils();
+    self.network = new BackandNetwork('jquery');
+    self.table = BackandTable;
+
+    self.loadTables = function () {
+
         backand.database = [];
 
-        var filterItem = new backand.filter.item("SystemView", backand.filter.operator.boolean.equals, false);
+        var filterItem = new self.filter.item("SystemView", self.filter.operator.boolean.equals, false);
         var filter = [filterItem];
-
-        var sortItem = new backand.sort.item("captionText", backand.sort.order.asc);
-
+        var sortItem = new self.sort.item("captionText", self.sort.order.asc);
         var sort = [sortItem];
 
-        backand.api.table.config.getList(null, null, 1000, filter, sort, null, function (data) {
+        self.api.table.config.getList(null, null, 1000, filter, sort, null, function (data) {
+
                 for (var i = 0; i < data.data.length; i++) {
+
                     var name = data.data[i].name;
-                    backand.database[name] = new backand.table(name, true);
+
+                    backand.database[name] = new self.table(name, true);
                     backand.database.push(backand.database[name]);
                 }
+
+                // todo: (rely) overriding Object.create method. choose another name.
                 backand.database.create = function (data, successCallback, errorCallback) {
-                    backand.api.table.config.createItem(JSON.stringify(data), function (data, textStatus, xhr) {
-                        backand.database[data.name] = new backand.table(data.name, true);
+
+                    self.api.table.config.createItem(JSON.stringify(data), function (data, textStatus, xhr) {
+
+                        backand.database[data.name] = new self.table(data.name, true);
                         backand.database.push(backand.database[data.name]);
+
                         if (successCallback) successCallback(data, textStatus, xhr);
+
                     }, errorCallback);
                 };
             },
+
             function (xhr) {
-                alert(JSON.stringify(xhr));
+                console.log(JSON.stringify(xhr));
             });
     };
 }

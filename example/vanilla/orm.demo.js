@@ -7,8 +7,8 @@ $(function () {
 
 	var successCallback = function (data) {
 	    outputElement.text('');
-		outputElement.removeClass('alert-danger')
-		outputElement.addClass('alert-success')
+		outputElement.removeClass('alert-danger');
+		outputElement.addClass('alert-success');
 		if (data)
 			outputElement.text(JSON.stringify(data));
 		else
@@ -16,8 +16,8 @@ $(function () {
 	};
 	var errorCallback = function (error) {
 	    outputElement.text('');
-	    outputElement.removeClass('alert-success')
-		outputElement.addClass('alert-danger')
+	    outputElement.removeClass('alert-success');
+		outputElement.addClass('alert-danger');
 		if (error) {
 			if (error.responseJSON && error.responseJSON.error_description) {
 				outputElement.text(error.responseJSON.error_description);

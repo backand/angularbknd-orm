@@ -39,7 +39,7 @@ function BackandTable(name, cacheConfig) {
                     data.fields[field.name] = field;
                     field.update = function (successCallback, errorCallback) {
                         table.configData = null;
-                    }
+                    };
 
                     if (field.type == "SingleSelect") {
                         field.autoComplete = function (data, limit, successCallback, errorCallback) {
@@ -47,7 +47,7 @@ function BackandTable(name, cacheConfig) {
                                 term: data,
                                 limit: limit ? limit : 20
                             }, successCallback, errorCallback);
-                        }
+                        };
 
                         field.selectOptions = function (successCallback, errorCallback) {
                             backand.api.table.data.selectOptions(table.name, this.name, successCallback, errorCallback);
@@ -67,7 +67,7 @@ function BackandTable(name, cacheConfig) {
                 data.fields.create = function (data, successCallback, errorCallback) {
                     table.configData = null;
 
-                }
+                };
 
                 data.update = function (successCallback, errorCallback) {
                     table.configData = null;

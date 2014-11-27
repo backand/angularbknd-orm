@@ -3,7 +3,7 @@ function BackandSecurity () {
         url: '/api/banner',
             getAdminInfo: function () {
             var adminInfo = null;
-            backand.options.ajax.json(backand.options.url + backand.security.banner.url, null, backand.options.verbs.post, function (data) {
+            backand.network.ajax.json(backand.options.url + backand.security.banner.url, null, backand.options.verbs.post, function (data) {
                 adminInfo = data;
             }, function (xhr, textStatus, err) {
                 if (xhr) {
@@ -55,7 +55,7 @@ function BackandSecurity () {
         },
         login: function (username, password, appname, successCallback, errorCallback) {
             backand.security.authentication.addLoginEvent();
-            backand.options.ajax.json(backand.options.url + backand.security.authentication.url, {
+            backand.network.ajax.json(backand.options.url + backand.security.authentication.url, {
                     grant_type: "password",
                     username: username,
                     password: password,
@@ -75,7 +75,7 @@ function BackandSecurity () {
 
     this.unlock = function (username, successCallback, errorCallback) {
         var url = backand.options.getUrl('/account/unlock');
-        backand.options.ajax.json(url, JSON.stringify({username: username}), backand.options.verbs.post, successCallback, errorCallback);
+        backand.network.ajax.json(url, JSON.stringify({username: username}), backand.options.verbs.post, successCallback, errorCallback);
 
     }
 }
