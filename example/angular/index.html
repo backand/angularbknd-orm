@@ -26,7 +26,6 @@
     <script src="../../src/backand/network-adaptors/backand-angularjs-adaptor.js"></script>
 
     <script src="angular.demo.js"></script>
-    <script src="../vanilla/orm.demo.js"></script>
 
     <style>
         #oauth2 button {
@@ -51,9 +50,10 @@
         <section id="oauth2">
             <div class="page-header">
                 <h1>
-                    authentication<small>
-                    (<a target="_blank" href="">backand.security.authentication</a>)
-                </small>
+                    authentication
+                    <small>
+                      (<a target="_blank" href="">backand.security.authentication</a>)
+                    </small>
                 </h1>
             </div>
             <div class="row">
@@ -66,22 +66,22 @@
                             <div>
                                 <label class="col-md-2">
                                     username:
-                                    <input name="username" value="guest@backand.com" />
+                                    <input name="username" ng-model="app.username" />
                                 </label>
                             </div>
                             <div>
                                 <label class="col-md-2">
                                     password:
-                                    <input name="password" value="guest1234" />
+                                    <input name="password" ng-value="guest1234" ng-model="app.password" />
                                 </label>
                             </div>
                             <div>
                                 <label class="col-md-2">
                                     appname:
-                                    <input name="appname" value="restdemo" />
+                                    <input name="appname" ng-value="restdemo" ng-model="app.appname" />
                                 </label>
                             </div>
-                            <button>login</button>
+                            <button ng-click="app.login()">login</button>
                         </fieldset>
                             <pre>
 var username = $('input[name=username]').val();
@@ -92,10 +92,11 @@ backand.security.authentication.login(username, password, appname, successCallba
                 </div>
 
                 <div class="col-md-4">
-                    <div class="output">
-
+                    <div class="output {{ app.output['login'].class }}">
+                      {{ app.output['login'].text }}
                     </div>
                 </div>
+            </div>
         </section>
     </div>
 </div>
@@ -118,7 +119,7 @@ backand.security.authentication.login(username, password, appname, successCallba
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button><font size="10">C</font>reate</button>
+                            <button ng-click="app.crudCreate()"><font size="10">C</font>reate</button>
                             <div>
                                     <pre>
 var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
@@ -128,16 +129,16 @@ backand.database.Employees.create(employee, successCallback, errorCallback);</pr
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['crudCreate'].class }}">
+                        {{ app.output['crudCreate'].text }}
+                      </div>
                     </div>
                 </div>
                 <div id="readSingleFilter" class="row">
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button class="crud-read"><font size="10">R</font>ead</button>
+                            <button class="crud-read" ng-click="app.crudReadSingleFilter()"><font size="10">R</font>ead</button>
                             <span>Read list filtered by a single value</span>
 
                             <div>
@@ -155,16 +156,16 @@ backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, d
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['crudReadSingleFilter'].class }}">
+                        {{ app.output['crudReadSingleFilter'].text }}
+                      </div>
                     </div>
                 </div>
                 <div id="readMultiFilter" class="row">
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button class="crud-read"><font size="10">R</font>ead</button>
+                            <button class="crud-read" ng-click="app.crudReadMultiFilter()"><font size="10">R</font>ead</button>
                             <span>Read list filtered by array of values</span>
 
                             <div>
@@ -182,16 +183,16 @@ backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, d
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['crudReadMultiFilter'].class }}">
+                        {{ app.output['crudReadMultiFilter'].text }}
+                      </div>
                     </div>
                 </div>
                 <div id="readById" class="row">
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button class="crud-read"><font size="10">R</font>ead</button>
+                            <button class="crud-read" ng-click="app.crudReadById()"><font size="10">R</font>ead</button>
                             <span>Read by id</span>
                             <div>
                                     <pre>
@@ -201,16 +202,16 @@ backand.database.Employees.get(146, false, successCallback, errorCallback);</pre
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['crudReadById'].class }}">
+                        {{ app.output['crudReadById'].text }}
+                      </div>
                     </div>
                 </div>
                 <div id="update" class="row">
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button><font size="10">U</font>pdate</button>
+                            <button ng-click="app.crudUpdate()"><font size="10">U</font>pdate</button>
                             <div>
                                     <pre>
 var id = 145;
@@ -221,16 +222,16 @@ backand.database.Employees.update(id, employee, successCallback, errorCallback);
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['crudUpdate'].class }}">
+                        {{ app.output['crudUpdate'].text }}
+                      </div>
                     </div>
                 </div>
                 <div id="delete" class="row">
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button><font size="10">D</font>elete</button>
+                            <button ng-click="app.crudDelete()"><font size="10">D</font>elete</button>
                             <div>
                                     <pre>
 var id = 145;
@@ -240,9 +241,9 @@ backand.database.Employees.delete(id, successCallback, errorCallback);</pre>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['crudDelete'].class }}">
+                        {{ app.output['crudDelete'].text }}
+                      </div>
                     </div>
                 </div>
 
@@ -265,7 +266,7 @@ backand.database.Employees.delete(id, successCallback, errorCallback);</pre>
                 <div class="col-md-8">
                     <div class='well'>
 
-                        <button>test autocomplete</button>
+                        <button ng-click="app.autocomplete()">test autocomplete</button>
                         <div class="autocomplete">
                             <label>start type with 's' or 'v'</label>
                             <input />
@@ -280,9 +281,9 @@ $('#autocomplete input').keyup(function () {
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="output">
-
-                    </div>
+                  <div class="output {{ app.output['autocomplete'].class }}">
+                    {{ app.output['autocomplete'].text }}
+                  </div>
                 </div>
             </div>
 
@@ -290,7 +291,7 @@ $('#autocomplete input').keyup(function () {
                 <div class="col-md-8">
                     <div class='well'>
 
-                        <button>select options</button>
+                        <button ng-click="app.selectOptions()">select options</button>
                         <div>
                                 <pre>
 employeesConfig.fields.Job_Title.selectOptions(successCallback, errorCallback);
@@ -300,9 +301,9 @@ employeesConfig.fields.Job_Title.selectOptions(successCallback, errorCallback);
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="output">
-
-                    </div>
+                  <div class="output {{ app.output['selectOptions'].class }}">
+                    {{ app.output['selectOptions'].text }}
+                  </div>
                 </div>
             </div>
 
@@ -311,7 +312,7 @@ employeesConfig.fields.Job_Title.selectOptions(successCallback, errorCallback);
                     <div class='well'>
                         <form enctype="multipart/form-data">
                             <input id="fileselect" name="fileselect" type="file" multiple />
-                            <input id="uploadbutton" type="button" value="Upload" />
+                            <input id="uploadbutton" type="button" value="Upload" ng-click="app.upload()"/>
                             <a></a>
                         </form>
                         <div>
@@ -328,9 +329,9 @@ $('#uploadbutton').click(function () {
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="output">
-
-                    </div>
+                  <div class="output {{ app.output['upload'].class }}">
+                    {{ app.output['upload'].text }}
+                  </div>
                 </div>
             </div>
         </section>
@@ -353,7 +354,7 @@ $('#uploadbutton').click(function () {
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button>List of all database</button>
+                            <button ng-click="app.databaseList()">List of all database</button>
                             <div>
                                 <pre>backand.database</pre>
                             </div>
@@ -361,16 +362,16 @@ $('#uploadbutton').click(function () {
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['databaseList'].class }}">
+                        {{ app.output['databaseList'].text }}
+                      </div>
                     </div>
                 </div>
                 <div id="table" class="row">
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button>specific table config</button>
+                            <button ng-click="app.specificTableConfig()">specific table config</button>
                             <div>
                                     <pre>
 var employeesConfig = null;
@@ -383,16 +384,16 @@ errorCallback);</pre>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['specificTableConfig'].class }}">
+                        {{ app.output['specificTableConfig'].text }}
+                      </div>
                     </div>
                 </div>
                 <div id="fields" class="row">
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button>list of all fields</button>
+                            <button ng-click="app.fieldsList()">list of all fields</button>
                             <div>
                                 <pre>employeesConfig.fields</pre>
                             </div>
@@ -400,16 +401,16 @@ errorCallback);</pre>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['fieldsList'].class }}">
+                        {{ app.output['fieldsList'].text }}
+                      </div>
                     </div>
                 </div>
                 <div id="field" class="row">
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button>specific field config</button>
+                            <button ng-click="app.specificFieldConfig()">specific field config</button>
                             <div>
                                 <pre>employeesConfig.fields.First_Name</pre>
                             </div>
@@ -417,9 +418,9 @@ errorCallback);</pre>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['specificFieldConfig'].class }}">
+                        {{ app.output['specificFieldConfig'].text }}
+                      </div>
                     </div>
                 </div>
 
@@ -444,7 +445,7 @@ errorCallback);</pre>
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button>create master table</button>
+                            <button ng-click="app.createMasterTable()">create master table</button>
                             <div>
                                     <pre>
 var table = {name: "My New Table", fields: [{name: "field1", type: backand.field.type.ShortText}, {name: "field2", type: backand.field.type.DateTime}]};
@@ -454,16 +455,16 @@ backand.database.create(table, successCallback, errorCallback)</pre>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['createMasterTable'].class }}">
+                        {{ app.output['createMasterTable'].text }}
+                      </div>
                     </div>
                 </div>
                 <div id="createDetailsTable" class="row">
                     <div class="col-md-8">
                         <div class='well'>
 
-                            <button>create details table</button>
+                            <button ng-click="app.createDetailsTable()">create details table</button>
                             <div>
                                     <pre>
 var table = { name: "pet", fields: [{ name: "name", type: backand.field.type.ShortText }, { name: "owner", type: backand.field.type.SingleSelect, relatedTable: "person" }, { name: "type", type: backand.field.type.SingleSelect, relatedTable: "petType" }, { name: "dateOfBirth", type: backand.field.type.DateTime }] };
@@ -474,9 +475,9 @@ backand.database.create(table, successCallback, errorCallback);
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="output">
-
-                        </div>
+                      <div class="output {{ app.output['createDetailsTable'].class }}">
+                        {{ app.output['createDetailsTable'].text }}
+                      </div>
                     </div>
                 </div>
                 <div id="updateTable" class="row">
