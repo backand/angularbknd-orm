@@ -2,6 +2,7 @@
  * @desc global configuration for the backand object
  * @param {string} url
  * @param {number} version
+ * @author nir.k
  * @constructor
  */
 function BackandOptions(url, version) {

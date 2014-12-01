@@ -14,7 +14,6 @@ function BackandTable(name, cacheConfig) {
         backand.api.table.data.getList(this.name, false, false, pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);
     };
 
-
     this.create = function (data, successCallback, errorCallback) {
         backand.api.table.data.createItem(this.name, JSON.stringify(data), successCallback, errorCallback, {returnObject: true});
     };
@@ -92,5 +91,4 @@ function BackandTable(name, cacheConfig) {
             }, errorCallback);
         }
     };
-
 }

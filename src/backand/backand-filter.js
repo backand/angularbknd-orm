@@ -1,5 +1,15 @@
+/**
+ *
+ * @constructor
+ */
 function BackandFilter () {
 
+    /**
+     * @desc construct an item object
+     * @param fieldName
+     * @param operator
+     * @param value
+     */
     this.item = function (fieldName, operator, value) {
         this.fieldName = fieldName;
         this.operator = operator;
