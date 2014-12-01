@@ -87,7 +87,7 @@
 var username = $('input[name=username]').val();
 var password = $('input[name=password]').val();
 var appname = $('input[name=appname]').val();
-backand.security.authentication.login(username, password, appname, successCallback, errorCallback);</pre>
+backand.security.authentication.login(username, password, appname);</pre>
                     </div>
                 </div>
 
@@ -123,7 +123,7 @@ backand.security.authentication.login(username, password, appname, successCallba
                             <div>
                                     <pre>
 var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
-backand.database.Employees.create(employee, successCallback, errorCallback);</pre>
+backand.database.Employees.create(employee);</pre>
                             </div>
 
                         </div>
@@ -150,7 +150,7 @@ var sort = { fieldName: "Last_Name", order: "desc" };
 var search = null;
 var deep = true;
 
-backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);</pre>
+backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep);</pre>
                             </div>
 
                         </div>
@@ -177,7 +177,7 @@ var sort = [{ fieldName: "Last_Name", order: "desc" }, { fieldName: "First_Name"
 var search = null;
 var deep = true;
 
-backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);</pre>
+backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep);</pre>
                             </div>
 
                         </div>
@@ -196,7 +196,7 @@ backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, d
                             <span>Read by id</span>
                             <div>
                                     <pre>
-backand.database.Employees.get(146, false, successCallback, errorCallback);</pre>
+backand.database.Employees.get(146, false);</pre>
                             </div>
 
                         </div>
@@ -216,7 +216,7 @@ backand.database.Employees.get(146, false, successCallback, errorCallback);</pre
                                     <pre>
 var id = 145;
 var employee = { "First_Name": "Nir2", "Last_Name": "Kaufman2" };
-backand.database.Employees.update(id, employee, successCallback, errorCallback);</pre>
+backand.database.Employees.update(id, employee);</pre>
                             </div>
 
                         </div>
@@ -235,7 +235,7 @@ backand.database.Employees.update(id, employee, successCallback, errorCallback);
                             <div>
                                     <pre>
 var id = 145;
-backand.database.Employees.delete(id, successCallback, errorCallback);</pre>
+backand.database.Employees.delete(id);</pre>
                             </div>
 
                         </div>
@@ -274,7 +274,7 @@ backand.database.Employees.delete(id, successCallback, errorCallback);</pre>
                         <div>
                                 <pre>
 $('#autocomplete input').keyup(function () {
-    employeesConfig.fields.Job_Title.autoComplete($(this).val(), null, successCallback, errorCallback);
+    employeesConfig.fields.Job_Title.autoComplete($(this).val(), null);
 })</pre>
                         </div>
 
@@ -322,7 +322,7 @@ $('#fileselect').bind("change", function (e) {
 	files = e.target.files || e.dataTransfer.files;
 });
 $('#uploadbutton').click(function () {
-	employeesConfig.fields.Attachments.upload(files, successCallback, errorCallback)
+	employeesConfig.fields.Attachments.upload(files)
 });</pre>
                         </div>
 
@@ -449,7 +449,7 @@ errorCallback);</pre>
                             <div>
                                     <pre>
 var table = {name: "My New Table", fields: [{name: "field1", type: backand.field.type.ShortText}, {name: "field2", type: backand.field.type.DateTime}]};
-backand.database.create(table, successCallback, errorCallback)</pre>
+backand.database.add(table)</pre>
                             </div>
 
                         </div>
@@ -468,7 +468,7 @@ backand.database.create(table, successCallback, errorCallback)</pre>
                             <div>
                                     <pre>
 var table = { name: "pet", fields: [{ name: "name", type: backand.field.type.ShortText }, { name: "owner", type: backand.field.type.SingleSelect, relatedTable: "person" }, { name: "type", type: backand.field.type.SingleSelect, relatedTable: "petType" }, { name: "dateOfBirth", type: backand.field.type.DateTime }] };
-backand.database.create(table, successCallback, errorCallback);
+backand.database.add(table);
 </pre>
                             </div>
 
@@ -509,7 +509,7 @@ my_New_TableConfig.update(successCallback, errorCallback);
                             <div>
                                     <pre>
 var newField1 = {name: "newField1", type: backand.field.type.ShortText};
-my_New_TableConfig.fields.create(newField1, successCallback, errorCallback);
+my_New_TableConfig.fields.create(newField1);
 </pre>
                             </div>
 
@@ -580,14 +580,14 @@ employeesConfig.update(successCallback, errorCallback)</pre>
                             <div>
                                     <pre>
 var employee = { "First_Name": "NotNir", "Last_Name": "NotKaufman" };
-backand.database.Employees.create(employee, successCallback, errorCallback);
+backand.database.Employees.add(employee);
 </pre>
                             </div>
                             <button id="testPositive">Test Positive</button>
                             <div>
                                     <pre>
 var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
-backand.database.Employees.create(employee, successCallback, errorCallback);
+backand.database.Employees.add(employee);
 </pre>
                             </div>
 
@@ -619,7 +619,7 @@ employeesConfig.update(successCallback, errorCallback)</pre>
                             <div>
                                     <pre>
 var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
-backand.database.Employees.create(employee, successCallback, errorCallback);
+backand.database.Employees.add(employee);
 </pre>
                             </div>
 
@@ -648,7 +648,7 @@ employeesConfig.update(successCallback, errorCallback)</pre>
                             <button id="testPositive">Test Positive</button>
                             <div>
                                     <pre>
-backand.database.Employees.get(146, successCallback, errorCallback);
+backand.database.Employees.get(146);
 </pre>
                             </div>
 
@@ -676,7 +676,7 @@ employeesConfig.update(successCallback, errorCallback)</pre>
                             <button id="testNegative">Test Positive</button>
                             <div>
                                     <pre>
-backand.database.Employees.get(146, successCallback, errorCallback);
+backand.database.Employees.get(146);
 </pre>
                             </div>
 
@@ -708,14 +708,14 @@ employeesConfig.update(successCallback, errorCallback)</pre>
                             <div>
                                     <pre>
 var employee = { "First_Name": "NotNir", "Last_Name": "NotKaufman" };
-backand.database.Employees.update(146, employee, successCallback, errorCallback);
+backand.database.Employees.update(146, employee);
 </pre>
                             </div>
                             <button id="testPositive">Test Positive</button>
                             <div>
                                     <pre>
 var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
-backand.database.Employees.update(146, employee, successCallback, errorCallback);
+backand.database.Employees.update(146, employee);
 </pre>
                             </div>
 
@@ -746,7 +746,7 @@ employeesConfig.update(successCallback, errorCallback)</pre>
                             <div>
                                     <pre>
 var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
-backand.database.Employees.update(employee, successCallback, errorCallback);
+backand.database.Employees.update(employee);
 </pre>
                             </div>
 
@@ -777,13 +777,13 @@ employeesConfig.update(successCallback, errorCallback)</pre>
                             <button id="testNegative">Test Negative</button>
                             <div>
                                     <pre>
-backand.database.Employees.delete(5, successCallback, errorCallback);
+backand.database.Employees.delete(5);
 </pre>
                             </div>
                             <button id="testPositive">Test Positive</button>
                             <div>
                                     <pre>
-backand.database.Employees.delete(146, successCallback, errorCallback);
+backand.database.Employees.delete(146);
 </pre>
                             </div>
 
@@ -813,7 +813,7 @@ employeesConfig.update(successCallback, errorCallback)</pre>
                             <button id="testNegative">Test Positive</button>
                             <div>
                                     <pre>
-backand.database.Employees.delete(146, successCallback, errorCallback);
+backand.database.Employees.delete(146);
 </pre>
                             </div>
 

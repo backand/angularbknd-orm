@@ -54,29 +54,28 @@ function BackandSecurity (bannerUrl, authUrl ) {
                 backand.security.authentication.onlogin = new CustomEvent("onlogin", {"appname": appname});
             }
         },
-        login: function (username, password, appname, successCallback, errorCallback) {
+        login: function (username, password, appname) {
             backand.security.authentication.addLoginEvent();
-            backand.network.json(backand.options.url + backand.security.authentication.url, {
+            return backand.network.json(backand.options.url + backand.security.authentication.url, {
                     grant_type: "password",
                     username: username,
                     password: password,
                     appname: appname
-                }, backand.options.verbs.post, function (data) {
+                }, backand.options.verbs.post).then(
+                  function (data) {
                     backand.security.authentication.token = data.token_type + " " + data.access_token;
                     document.dispatchEvent(backand.security.authentication.onlogin);
                     backand.loadTables();
-                    if (successCallback) successCallback(data);
-                },
-                function (xhr, textStatus, err) {
-                    if (errorCallback && xhr) errorCallback(xhr, textStatus, err)
-                },
-                true);
+                    return data;
+                  }
+                )//,
+//                true);
         }
     };
 
-    this.unlock = function (username, successCallback, errorCallback) {
+    this.unlock = function (username) {
         var url = backand.options.getUrl('/account/unlock');
-        backand.network.json(url, JSON.stringify({username: username}), backand.options.verbs.post, successCallback, errorCallback);
+        backand.network.json(url, JSON.stringify({username: username}), backand.options.verbs.post);
 
     }
 }

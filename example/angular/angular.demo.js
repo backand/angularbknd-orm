@@ -12,16 +12,18 @@
     self.appname = 'restdemo';
     
     var setOutput = function (elementClass, elementText) {
-      self.output[outputElement].class = elementClass;
-      self.output[outputElement].text = elementText;
+      self.output[outputElement] = {
+        class: elementClass,
+        text: elementText
+      }
     };
     
-    var successCallback = function (data) {
+    var successOutput = function (data) {
       var text = data ? JSON.stringify(data) : 'success';
       setOutput('alert-success', text);
     };
 
-    var errorCallback = function (error) {
+    var errorOutput = function (error) {
       var text = 'error';
       if (error) {
         if (error.responseJSON && error.responseJSON.error_description) {
@@ -36,33 +38,35 @@
     var authorized = function() {
       if (!backand.database) {
         alert("please login before using backand");
-        return false;
-      } else {
-        return true;
       }
+      return !!backand.database
     };
     
     var created = function () {
       if (!lastCreatedId) {
         alert("please create before update");
-        return false;
-      } else {
-        return true;
       }
+      return !!lastCreatedId
     };
     
     var tableChosen = function () {
       if (!employeesConfig) {
         alert("please click on specific table config before");
-        return false;
-      } else {
-        return true;
       }
+      return !!employeesConfig
     };
     
     self.login = function () {
       outputElement = 'login';
-      backand.security.authentication.login(self.username, self.password, self.appname, successCallback, errorCallback);
+      backand.security.authentication.login(self.username, self.password, self.appname)
+      .then(
+        function (data) {
+          successOutput(data);
+        },
+        function (error) {
+          errorOutput(error);
+        }
+      );
     };
     
     // CRUD Create
@@ -70,14 +74,41 @@
       if (authorized()) {
         outputElement = 'crudCreate';
         var employee = { "First_Name": "Nir", "Last_Name": "Kaufman" };
-        backand.database.Employees.create(employee, function (data) {
-          lastCreatedId = data.__metadata.id;
-          successCallback(data);
-        }, errorCallback);
+        backand.database.Employees.add(employee)
+        .then(
+          function (data) {
+            lastCreatedId = data.__metadata.id;
+            successOutput(data);
+          }, 
+          function (error) {
+            errorOutput(error);
+          }
+        );
       }
     };
 
     // CRUD Read
+    self.crudReadSingleFilter = function () {
+      if (authorized()) {
+        outputElement = 'crudReadSingleFilter';
+        var pageNumber = 1;
+        var pageSize = 10;
+        var filter = { fieldName: "First_Name", operator: backand.filter.operator.text.equals, value: "Nir" };
+        var sort = { fieldName: "Last_Name", order: "desc" };
+        var search = null;
+        var deep = true;
+        backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep)
+        .then(
+          function (data) {
+            successOutput(data);
+          },
+          function (error) {
+            errorOutput(error);
+          }
+        );
+      }
+    };
+    
     self.crudReadMultiFilter = function () {
       if (authorized()) {
         outputElement = 'crudReadMultiFilter';
@@ -90,27 +121,30 @@
         var sort = [{ fieldName: "Last_Name", order: "desc" }, { fieldName: "First_Name", order: "desc" }];
         var search = null;
         var deep = true;
-        backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);
-      }
-    };
-    
-    self.crudReadSingleFilter = function () {
-      if (authorized()) {
-        outputElement = 'crudReadSingleFilter';
-        var pageNumber = 1;
-        var pageSize = 10;
-        var filter = { fieldName: "First_Name", operator: backand.filter.operator.text.equals, value: "Nir" };
-        var sort = { fieldName: "Last_Name", order: "desc" };
-        var search = null;
-        var deep = true;
-        backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback);
+        backand.database.Employees.getList(pageNumber, pageSize, filter, sort, search, deep)
+        .then(
+          function (data) {
+            successOutput(data);
+          },
+          function (error) {
+            errorOutput(error);
+          }
+        );
       }
     };
     
     self.crudReadById = function () {
       if (authorized()) {
         outputElement ='crudReadById';
-        backand.database.Employees.get(lastCreatedId ? lastCreatedId : 20, false, successCallback, errorCallback);          
+        backand.database.Employees.get(lastCreatedId ? lastCreatedId : 20, false)
+        .then(
+          function (data) {
+            successOutput(data);
+          },
+          function (error) {
+            errorOutput(error);
+          }
+        );
       }
     };
     
@@ -119,7 +153,15 @@
       if (authorized() && created()) {
         outputElement = 'crudUpdate';
         var employee = { "First_Name": "Nir2", "Last_Name": "Kaufman2" };
-        backand.database.Employees.update(lastCreatedId, employee, successCallback, errorCallback);
+        backand.database.Employees.update(lastCreatedId, employee)
+        .then(
+          function (data) {
+            successOutput(data);
+          },
+          function (error) {
+            errorOutput(error);
+          }
+        );
       }
     };
     
@@ -127,7 +169,15 @@
     self.crudDelete = function () {
       if (authorized() && created()) {
         outputElement = 'crudDelete';
-        backand.database.Employees.delete(lastCreatedId, successCallback, errorCallback);
+        backand.database.Employees.destroy(lastCreatedId)
+        .then(
+          function (data) {
+            successOutput(data);
+          },
+          function (error) {
+            errorOutput(error);
+          }
+        );
       }
     };
 
@@ -138,7 +188,7 @@
 
         $('.autocomplete').show();
         $('#autocomplete input').keyup(function () {
-          employeesConfig.fields.Job_Title.autoComplete($(this).val(), null, successCallback, errorCallback);
+          employeesConfig.fields.Job_Title.autoComplete($(this).val(), null);
         })
       }
     };
@@ -147,7 +197,7 @@
     self.selectOptions = function () {
       if (authorized() && tableChosen()) {
         outputElement = 'selectOptions';
-        employeesConfig.fields.Job_Title.selectOptions(successCallback, errorCallback);        
+        employeesConfig.fields.Job_Title.selectOptions(successOutput, errorOutput);        
       }
     };
 
@@ -160,7 +210,7 @@
     self.upload = function () {
       if (authorized() && tableChosen()) {
         outputElement = 'upload';
-        employeesConfig.fields.Attachments.upload(files, successCallback, errorCallback)
+        employeesConfig.fields.Attachments.upload(files)
       }
     };
 
@@ -169,7 +219,7 @@
     self.databaseList = function () {
       if (authorized()) {
         outputElement = 'databaseList';
-        successCallback(backand.database);
+        successOutput(backand.database);
       }
     };
 
@@ -179,8 +229,8 @@
         outputElement = 'specificTableConfig';
         backand.database.Employees.config(function (data) {
           employeesConfig = data;
-          successCallback(data);
-        }, errorCallback);
+          successOutput(data);
+        }, errorOutput);
       }
     };
 
@@ -188,7 +238,7 @@
     self.fieldsList = function () {
       if (authorized() && tableChosen()) {
         outputElement = 'fieldsList';
-        successCallback(employeesConfig.fields);
+        successOutput(employeesConfig.fields);
       }
     };
 
@@ -196,7 +246,7 @@
     self.specificFieldConfig = function () {
       if (authorized() && tableChosen()) {
         outputElement = 'specificFieldConfig';
-        successCallback(employeesConfig.fields.First_Name);
+        successOutput(employeesConfig.fields.First_Name);
       }
     };
 
@@ -210,7 +260,7 @@
           { name: "lastName", type: backand.field.type.ShortText },
           { name: "dateOfBirth", type: backand.field.type.DateTime }
         ] };
-        backand.database.create(table, successCallback, errorCallback);
+        backand.database.add(table);
       }
     };
 
@@ -224,7 +274,7 @@
           { name: "type", type: backand.field.type.SingleSelect, relatedTable: "petType" },
           { name: "dateOfBirth", type: backand.field.type.DateTime }
         ] };
-        backand.database.create(table, successCallback, errorCallback);
+        backand.database.add(table);
       }
     };
 

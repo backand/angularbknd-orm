@@ -3,9 +3,9 @@ function BackandApi(apiRoutes) {
     /* app is the object the contains the information of all the general content of the app */
     this.app = {
         url: apiRoutes.appUrl,
-        getConfig: function (successCallback, errorCallback) {
+        getConfig: function () {
             var url = backand.options.getUrl(backand.api.app.url);
-            backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+            return backand.network.json(url, null, backand.options.verbs.get);
         }
     };
 
@@ -15,11 +15,11 @@ function BackandApi(apiRoutes) {
 
             url: apiRoutes.tableConfigUrl,
 
-            getItem: function (name, successCallback, errorCallback) {
+            getItem: function (name) {
                 var url = backand.options.getUrl(backand.api.table.config.url + name);
-                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, null, backand.options.verbs.get);
             },
-            getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search, successCallback, errorCallback) {
+            getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search) {
                 var url = backand.options.getUrl(backand.api.table.config.url);
                 var data = {
                     withSelectOptions: withSelectOptions,
@@ -29,20 +29,20 @@ function BackandApi(apiRoutes) {
                     sort: JSON.stringify(sort),
                     search: search
                 };
-                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, data, backand.options.verbs.get);
 
             },
-            createItem: function (data, successCallback, errorCallback) {
+            createItem: function (data) {
                 var url = backand.options.getUrl(backand.api.table.config.url);
-                backand.network.json(url, data, backand.options.verbs.post, successCallback, errorCallback);
+                return backand.network.json(url, data, backand.options.verbs.post);
             },
-            updateItem: function (name, data, successCallback, errorCallback) {
+            updateItem: function (name, data) {
                 var url = backand.options.getUrl(backand.api.table.config.url + name);
-                backand.network.json(url, data, backand.options.verbs.put, successCallback, errorCallback);
+                return backand.network.json(url, data, backand.options.verbs.put);
             },
-            deleteItem: function (name, successCallback, errorCallback) {
+            deleteItem: function (name) {
                 var url = backand.options.getUrl(backand.api.table.config.url + name);
-                backand.network.json(url, null, backand.options.verbs.delete, successCallback, errorCallback);
+                return backand.network.json(url, null, backand.options.verbs.delete);
             },
             getFieldByName: function (configTable, fieldName) {
                 if (!configTable.hashFieldsByName) {
@@ -62,13 +62,13 @@ function BackandApi(apiRoutes) {
         data: {
             url: apiRoutes.tableDataUrl,
             /* get a single row by the primary key (id) */
-            getItem: function (name, id, deep, successCallback, errorCallback) {
+            getItem: function (name, id, deep) {
                 var url = backand.options.getUrl(backand.api.table.data.url + name + '/' + id);
                 var data = {deep: deep};
-                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, data, backand.options.verbs.get);
             },
             /* get a list of rows with optional filter, sort and page */
-            getList: function (name, withSelectOptions, withFilterOptions, pageNumber, pageSize, filter, sort, search, deep, successCallback, errorCallback) {
+            getList: function (name, withSelectOptions, withFilterOptions, pageNumber, pageSize, filter, sort, search, deep) {
                 var url = backand.options.getUrl(backand.api.table.data.url + name);
                 var data = {
                     withSelectOptions: withSelectOptions,
@@ -80,32 +80,32 @@ function BackandApi(apiRoutes) {
                     search: search,
                     deep: deep
                 };
-                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, data, backand.options.verbs.get);
 
             },
-            createItem: function (name, data, successCallback, errorCallback, params) {
+            createItem: function (name, data, params) {
                 var url = backand.options.getUrl(backand.api.table.data.url + name);
                 if (params)
                     url += '?' + backand.utils.objectToQueryString(params);
-                backand.network.json(url, data, backand.options.verbs.post, successCallback, errorCallback);
+                return backand.network.json(url, data, backand.options.verbs.post);
             },
-            updateItem: function (name, id, data, successCallback, errorCallback, params) {
+            updateItem: function (name, id, data, params) {
                 var url = backand.options.getUrl(backand.api.table.data.url + name + '/' + id);
                 if (params)
                     url += '?' + backand.utils.objectToQueryString(params);
-                backand.network.json(url, data, backand.options.verbs.put, successCallback, errorCallback);
+                return backand.network.json(url, data, backand.options.verbs.put);
             },
-            deleteItem: function (name, id, successCallback, errorCallback) {
+            deleteItem: function (name, id) {
                 var url = backand.options.getUrl(backand.api.table.data.url + name + '/' + id);
-                backand.network.json(url, null, backand.options.verbs.delete, successCallback, errorCallback);
+                return backand.network.json(url, null, backand.options.verbs.delete);
             },
-            autoComplete: function (tableName, fieldName, data, successCallback, errorCallback) {
+            autoComplete: function (tableName, fieldName, data) {
                 var url = backand.options.getUrl(backand.api.table.data.url + "autocomplete/" + tableName + '/' + fieldName);
-                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, data, backand.options.verbs.get);
             },
-            selectOptions: function (tableName, fieldName, successCallback, errorCallback) {
+            selectOptions: function (tableName, fieldName) {
                 var url = backand.options.getUrl(backand.api.table.data.url + "selectOptions/" + tableName + '/' + fieldName);
-                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, null, backand.options.verbs.get);
             }
         }
 
@@ -116,11 +116,11 @@ function BackandApi(apiRoutes) {
         config: {
             url: apiRoutes.dashboardConfigUrl,
             /* get the configuration information of a specific dashboard */
-            getItem: function (id, successCallback, errorCallback) {
+            getItem: function (id) {
                 var url = backand.options.getUrl(backand.api.dashboard.config.url + id);
-                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, null, backand.options.verbs.get);
             },
-            getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search, successCallback, errorCallback) {
+            getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search) {
                 var url = backand.options.getUrl(backand.api.dashboard.config.url);
                 var data = {
                     withSelectOptions: withSelectOptions,
@@ -130,7 +130,7 @@ function BackandApi(apiRoutes) {
                     sort: JSON.stringify(sort),
                     search: search
                 };
-                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, data, backand.options.verbs.get);
 
             }
         },
@@ -138,9 +138,9 @@ function BackandApi(apiRoutes) {
         /* get the data of all the charts in this dashboard */
         data: {
             url: apiRoutes.dashboardDataUrl,
-            getItem: function (id, successCallback, errorCallback) {
+            getItem: function (id) {
                 var url = backand.options.getUrl(backand.api.dashboard.data.url + id);
-                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, null, backand.options.verbs.get);
             }
         }
 
@@ -149,11 +149,11 @@ function BackandApi(apiRoutes) {
         config: {
             url: apiRoutes.chartConfigUrl,
             /* get the configuration information of a specific chart */
-            getItem: function (id, successCallback, errorCallback) {
+            getItem: function (id) {
                 var url = backand.options.getUrl(backand.api.chart.config.url + id);
-                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, null, backand.options.verbs.get);
             },
-            getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search, successCallback, errorCallback) {
+            getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search) {
                 var url = backand.options.getUrl(backand.api.chart.config.url);
                 var data = {
                     withSelectOptions: withSelectOptions,
@@ -163,16 +163,16 @@ function BackandApi(apiRoutes) {
                     sort: JSON.stringify(sort),
                     search: search
                 };
-                backand.network.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, data, backand.options.verbs.get);
 
             }
         },
         data: {
             url: apiRoutes.chartDataUrl,
             /* get the data of a specific chart */
-            getItem: function (id, successCallback, errorCallback) {
+            getItem: function (id) {
                 var url = backand.options.getUrl(backand.api.chart.data.url + id + '?' + backand.utils.getQueryString());
-                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, null, backand.options.verbs.get);
             }
         }
 
@@ -181,11 +181,11 @@ function BackandApi(apiRoutes) {
         config: {
             url: apiRoutes.contentConfigData,
             /* get the configuration information of a specific content */
-            getItem: function (id, successCallback, errorCallback) {
+            getItem: function (id) {
                 var url = backand.options.getUrl(backand.api.content.config.url + id);
-                backand.network.json(url, null, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.json(url, null, backand.options.verbs.get);
             },
-            getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search, successCallback, errorCallback) {
+            getList: function (withSelectOptions, pageNumber, pageSize, filter, sort, search) {
                 var url = backand.options.getUrl(backand.api.content.config.url);
                 var data = {
                     withSelectOptions: withSelectOptions,
@@ -195,7 +195,7 @@ function BackandApi(apiRoutes) {
                     sort: JSON.stringify(sort),
                     search: search
                 };
-                backand.network.ajax.json(url, data, backand.options.verbs.get, successCallback, errorCallback);
+                return backand.network.ajax.json(url, data, backand.options.verbs.get);
 
             }
         }
@@ -203,7 +203,7 @@ function BackandApi(apiRoutes) {
 
     this.file = {
         url: apiRoutes.fileUrl,
-        upload: function (tableName, fieldName, files, successCallback, errorCallback) {
+        upload: function (tableName, fieldName, files) {
 
             var url = backand.options.getUrl(backand.api.file.url + tableName + '/' + fieldName);
             var data = new FormData();
@@ -213,7 +213,7 @@ function BackandApi(apiRoutes) {
                 data.append(i, files[i]);
             }
 
-            backand.options.ajax.file(url, data, backand.options.verbs.post, successCallback, errorCallback);
+            return backand.options.ajax.file(url, data, backand.options.verbs.post);
         }
     }
 }
