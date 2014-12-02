@@ -148,6 +148,12 @@
       }
     };
     
+    
+    // instead this, we need the following:
+    // var emp = backand.database.Employees.get(5);
+    // emp.First_Name = "yuhu";
+    // emp.update();
+    
     // CRUD Update
     self.crudUpdate = function () {
       if (authorized() && created()) {
@@ -164,6 +170,11 @@
         );
       }
     };
+    
+    
+    // instead this, we need the following:
+    // var emp = backand.database.Employees.get(5);
+    // emp.remove();
     
     // CRUD Delete
     self.crudDelete = function () {
