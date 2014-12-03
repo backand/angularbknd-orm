@@ -32,63 +32,64 @@ function BackandTable(name, cacheConfig) {
             successCallback(table.configData);
         }
         else {
-            backand.api.table.config.getItem(table.name, function (data) {
-                for (var i = 0; i < data.fields.length; i++) {
-                    var field = data.fields[i];
-                    data.fields[field.name] = field;
-                    field.update = function () {
-                        table.configData = null;
-                    };
-
-                    if (field.type == "SingleSelect") {
-                        field.autoComplete = function (data, limit) {
-                            backand.api.table.data.autoComplete(table.name, this.name, {
-                                term: data,
-                                limit: limit ? limit : 20
-                            });
-                        };
-
-                        field.selectOptions = function () {
-                            backand.api.table.data.selectOptions(table.name, this.name);
-                        }
-                    }
-
-                    if (field.type == "Image") {
-                        field.upload = function (files) {
-                            backand.api.file.upload(table.name, this.name, files);
-                        }
-                    }
-                }
-
-                // readonly array
-                setReadonlyArray(data.fields);
-
-                data.fields.add = function (data) {
-                    table.configData = null;
-
-                };
-
-                data.update = function () {
-                    table.configData = null;
-                    return backand.api.table.config.updateItem(table.name, JSON.stringify(this));
-                };
-
-                data.newInstance = function () {
-                    var o = {};
-
-                    for (var i = 0; i < data.fields.length; i++) {
-                        var field = data.fields[i];
-                        o[field.name] = null;
-                    }
-
-                    return o;
-                };
-
-                if (table.cacheConfig) {
-                    table.configData = data;
-                }
-                successCallback(data);
-            }, errorCallback);
+            backand.api.table.config.getItem(table.name).then(
+              function (data) {
+                  for (var i = 0; i < data.fields.length; i++) {
+                      var field = data.fields[i];
+                      data.fields[field.name] = field;
+                      field.update = function () {
+                          table.configData = null;
+                      };
+  
+                      if (field.type == "SingleSelect") {
+                          field.autoComplete = function (data, limit) {
+                              backand.api.table.data.autoComplete(table.name, this.name, {
+                                  term: data,
+                                  limit: limit ? limit : 20
+                              });
+                          };
+  
+                          field.selectOptions = function () {
+                              backand.api.table.data.selectOptions(table.name, this.name);
+                          }
+                      }
+  
+                      if (field.type == "Image") {
+                          field.upload = function (files) {
+                              backand.api.file.upload(table.name, this.name, files);
+                          }
+                      }
+                  }
+  
+                  // readonly array
+                  setReadonlyArray(data.fields);
+  
+                  data.fields.add = function (data) {
+                      table.configData = null;
+  
+                  };
+  
+                  data.update = function () {
+                      table.configData = null;
+                      return backand.api.table.config.updateItem(table.name, JSON.stringify(this));
+                  };
+  
+                  data.newInstance = function () {
+                      var o = {};
+  
+                      for (var i = 0; i < data.fields.length; i++) {
+                          var field = data.fields[i];
+                          o[field.name] = null;
+                      }
+  
+                      return o;
+                  };
+  
+                  if (table.cacheConfig) {
+                      table.configData = data;
+                  }
+                  successCallback(data);
+              }, errorCallback);
         }
     };
 }

@@ -3,27 +3,27 @@
 <head>
     <title>AngularJS Backand ORM</title>
 
-    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css"/>
 
-    <script src="../../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
 
-    <script src="../../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
 
     <!-- source files -->
-    <script src="../../src/backand/backand-options.js"></script>
-    <script src="../../src/backand/backand-field.js"></script>
-    <script src="../../src/backand/backand-filter.js"></script>
-    <script src="../../src/backand/backand-security.js"></script>
-    <script src="../../src/backand/backand-sort.js"></script>
-    <script src="../../src/backand/backand-system.js"></script>
-    <script src="../../src/backand/backand-table.js"></script>
-    <script src="../../src/backand/backand-api.js"></script>
-    <script src="../../src/backand/backand-util.js"></script>
-    <script src="../../src/backand/backand-network.js"></script>
-    <script src="../../src/backand/backand.js"></script>
+    <script src="../src/backand/backand-options.js"></script>
+    <script src="../src/backand/backand-field.js"></script>
+    <script src="../src/backand/backand-filter.js"></script>
+    <script src="../src/backand/backand-security.js"></script>
+    <script src="../src/backand/backand-sort.js"></script>
+    <script src="../src/backand/backand-system.js"></script>
+    <script src="../src/backand/backand-table.js"></script>
+    <script src="../src/backand/backand-api.js"></script>
+    <script src="../src/backand/backand-util.js"></script>
+    <script src="../src/backand/backand-network.js"></script>
+    <script src="../src/backand/backand.js"></script>
     <!-- source files -->
-    <script src="angular-backand.js"></script>
-    <script src="../../src/backand/network-adaptors/backand-angularjs-adaptor.js"></script>
+    <script src="../src/backand/angular-backand.js"></script>
+    <script src="../src/backand/network-adaptors/backand-angularjs-adaptor.js"></script>
 
     <script src="angular.demo.js"></script>
 
@@ -294,7 +294,7 @@ $('#autocomplete input').keyup(function () {
                         <button ng-click="app.selectOptions()">select options</button>
                         <div>
                                 <pre>
-employeesConfig.fields.Job_Title.selectOptions(successCallback, errorCallback);
+employeesConfig.fields.Job_Title.selectOptions();
 </pre>
                         </div>
 
@@ -489,7 +489,7 @@ backand.database.add(table);
                                     <pre>
 // Doing some configuration
 var my_New_TableConfig.allowAdd = false;
-my_New_TableConfig.update(successCallback, errorCallback);
+my_New_TableConfig.update();
 </pre>
                             </div>
 
@@ -530,7 +530,7 @@ my_New_TableConfig.fields.create(newField1);
                                     <pre>
 // Doing some configuration
 my_New_TableConfig.fields.newField1.displayName = "New Field 1";
-my_New_TableConfig.fields.newField1(successCallback, errorCallback);
+my_New_TableConfig.fields.newField1();
 </pre>
                             </div>
 
@@ -574,7 +574,7 @@ var beforeCreateCallback = function(name, data, user, notificationService){
     }
 }
 employeesConfig.businessRoles.beforeCreate = beforeCreateCallback;
-employeesConfig.update(successCallback, errorCallback)</pre>
+employeesConfig.update()</pre>
                             </div>
                             <button id="testNegative">Test Negative</button>
                             <div>
@@ -613,7 +613,7 @@ var afterCreateCallback = function(name, id, data, user, notificationService){
     }
 }
 employeesConfig.businessRoles.afterCreate = afterCreateCallback;
-employeesConfig.update(successCallback, errorCallback)</pre>
+employeesConfig.update()</pre>
                             </div>
                             <button id="testNegative">Test Positive</button>
                             <div>
@@ -643,7 +643,7 @@ var beforeReadCallback = function(name, id, pageNumber, pageSize, filter, sort, 
 //do some logic here.
 }
 employeesConfig.businessRoles.beforeRead = beforeReadCallback;
-employeesConfig.update(successCallback, errorCallback)</pre>
+employeesConfig.update()</pre>
                             </div>
                             <button id="testPositive">Test Positive</button>
                             <div>
@@ -671,7 +671,7 @@ var afterReadCallback = function(name, data, user, notificationService){
 //do some logic here.
 }
 employeesConfig.businessRoles.afterRead = afterReadCallback;
-employeesConfig.update(successCallback, errorCallback)</pre>
+employeesConfig.update()</pre>
                             </div>
                             <button id="testNegative">Test Positive</button>
                             <div>
@@ -702,7 +702,7 @@ var beforeUpdateCallback = function(name, id, data, user, notificationService){
     }
 }
 employeesConfig.businessRoles.beforeUpdate = beforeUpdateCallback;
-employeesConfig.update(successCallback, errorCallback)</pre>
+employeesConfig.update()</pre>
                             </div>
                             <button id="testNegative">Test Negative</button>
                             <div>
@@ -740,7 +740,7 @@ var afterUpdateCallback = function(name, id, data, user, notificationService){
     }
 }
 employeesConfig.businessRoles.afterUpdate = afterUpdateCallback;
-employeesConfig.update(successCallback, errorCallback)</pre>
+employeesConfig.update()</pre>
                             </div>
                             <button id="testNegative">Test Positive</button>
                             <div>
@@ -772,7 +772,7 @@ var beforeDeleteCallback = function(name, id, data, user, notificationService){
     }
 }
 employeesConfig.businessRoles.beforeDelete = beforeDeleteCallback;
-employeesConfig.update(successCallback, errorCallback)</pre>
+employeesConfig.update()</pre>
                             </div>
                             <button id="testNegative">Test Negative</button>
                             <div>
@@ -808,7 +808,7 @@ var afterDeleteCallback = function(name, id, data, user, notificationService){
     }
 }
 employeesConfig.businessRoles.afterDelete = afterDeleteCallback;
-employeesConfig.update(successCallback, errorCallback)</pre>
+employeesConfig.update()</pre>
                             </div>
                             <button id="testNegative">Test Positive</button>
                             <div>
